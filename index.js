@@ -477,7 +477,7 @@ async function run() {
         .toArray();
       res.send(result);
     });
-    // Update user role
+    // Update user role for admin
     app.put("/users/update/:email", verifyToken, async (req, res) => {
       const email = req.params.email;
       const user = req.body;
