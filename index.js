@@ -462,7 +462,7 @@ async function run() {
       res.send(result);
     });
     // ----------Admin--------------
-    // Get all users
+    // Get all users for admin
     app.get("/users", verifyToken, async (req, res) => {
       const Filter = req.query.filter;
       let query = {};
