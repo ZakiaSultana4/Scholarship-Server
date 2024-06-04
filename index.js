@@ -255,6 +255,7 @@ async function run() {
       const result = await ScholarshipsCollection.findOne(query);
       res.send(result);
     });
+    // done
     app.get("/apply/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
