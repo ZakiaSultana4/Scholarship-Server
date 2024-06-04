@@ -497,7 +497,7 @@ async function run() {
       const result = await ScholarshipsCollection.find().toArray();
       res.send(result);
     });
-    // Get a single Scholarships 
+    // Get a single Scholarship
     app.get("/admin-applied-scholarship", async (req, res) => {
       const sort = req.query.sort;
       let options = {}
