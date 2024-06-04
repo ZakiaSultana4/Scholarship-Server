@@ -1,0 +1,48 @@
+
+[
+    {
+      "unName": "Chrambaze University",
+      "unLogo": "https://i.ibb.co/PmnkYfM/nike-removebg-preview.png",
+      "scholarshipCategory": "full Funded",
+      "subjectCategory": "CSE",
+      "fee": 100,
+      "rating": "4",
+      "location": "Uk",
+      "deadline": "5-10"
+
+    },
+    {
+      "unName": "Chrambaze University",
+      "unLogo": "https://i.ibb.co/PmnkYfM/nike-removebg-preview.png",
+      "scholarshipCategory": "full Funded",
+      "subjectCategory": "Chemistry",
+      "fee": 100,
+      "rating": "4",
+      "location": "Uk",
+      "deadline": "5-10"
+
+    },
+    {
+      "unName": "Oxford University",
+      "unLogo": "https://i.ibb.co/PmnkYfM/nike-removebg-preview.png",
+      "scholarshipCategory": "full Funded",
+      "subjectCategory": "Chemistry",
+      "fee": 100,
+      "rating": "4",
+      "location": "Uk",
+      "deadline": "5-10"
+
+    },
+    {
+      "unName": "Oxford University",
+      "unLogo": "https://i.ibb.co/PmnkYfM/nike-removebg-preview.png",
+      "scholarshipCategory": "full Funded",
+      "subjectCategory": "CSE",
+      "fee": 100,
+      "rating": "4",
+      "location": "Uk",
+      "deadline": "5-10"
+
+    }
+  ]
+  
