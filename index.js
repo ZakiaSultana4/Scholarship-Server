@@ -182,7 +182,7 @@ async function run() {
       res.send(result);
     });
 
-    // Get user role
+    // Get user role for all
     app.get("/user/:email", async (req, res) => {
       const email = req.params.email;
       const result = await usersCollection.findOne({ email });
