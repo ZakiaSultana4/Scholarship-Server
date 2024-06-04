@@ -561,7 +561,7 @@ async function run() {
       const result = await usersCollection.deleteOne(query);
       res.send(result);
     });
-    // Admin Stat Data
+    // Admin Stat Data in 
     app.get("/admin-stat", verifyToken, async (req, res) => {
       const bookingsDetails = await bookingsCollection
         .find({}, { projection: { date: 1, fee: 1 } })
