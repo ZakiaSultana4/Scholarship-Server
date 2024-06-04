@@ -507,16 +507,11 @@ async function run() {
       if (sort === 'dsc') {
        options = { sort: { deadline: -1 } }
       }
-      // if (query5) {
-      //   query5 = { subjectCategory: { $regex: search, $options: "i" } };
-      // }
-   
-      // if (sort) options = { sort: { deadline: sort === 'asc' ? 1 : -1 } }
      
       const result = await bookingsCollection.find(options).toArray();
       res.send(result);
     });
-        // Get all jobs data from db for pagination
+        // Get all sc data from db for pagination
         app.get('/ad-ap-scholar', async (req, res) => {
           const size = parseInt(req.query.size)
           const page = parseInt(req.query.page) - 1
