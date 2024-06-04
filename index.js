@@ -537,7 +537,7 @@ async function run() {
           res.send(result)
         })
     
-        // Get all jobs data count from db
+        // Get all sc data count from db
         app.get('/jobs-count', async (req, res) => {
           const filter = req.query.filter
           const search = req.query.search
