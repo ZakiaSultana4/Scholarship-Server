@@ -188,14 +188,14 @@ async function run() {
       const result = await usersCollection.findOne({ email });
       res.send(result);
     });
-    //     Get a all Scholarships
+    //     Get a all sc
     app.get("/allScholarship", async (req, res) => {
       const result = await ScholarshipsCollection.find()
         .sort({ timestamp: -1, fee: -1 })
         .toArray();
       res.send(result);
     });
-    // Get all jobs data from db for pagination
+    // Get all sc data
     app.get("/allScholarships", async (req, res) => {
       let query = {};
       let query2 = {};
