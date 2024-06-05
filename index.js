@@ -8,11 +8,13 @@ const jwt = require("jsonwebtoken");
 const morgan = require("morgan");
 const { emit } = require("nodemon");
 const port = process.env.PORT || 9000;
-const stripe = require("stripe")(process.env.PAYMENT_METHOD);
+const stripe = require("stripe")(
+  "sk_test_51ObLksL8ZFHce7aG0JfkZzJnFBlB61TlNiLsgtdszwZKtuPUfb79SlNXanWvU6qBKd7ua6Gth8Lf2RjTsQFBGf8o00pM4M0qSe"
+);
 const nodemailer = require("nodemailer");
 // middleware
 const corsOptions = {
-  origin: ["https://scholary-90512.web.app/", "http://localhost:5173"],
+  origin: ["https://scholary-90512.web.app", "http://localhost:5173"],
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -77,7 +79,6 @@ const verifyToken = async (req, res, next) => {
 };
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.e0fsll4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
-
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -86,7 +87,7 @@ const client = new MongoClient(uri, {
   },
 });
 async function run() {
-  await client.connect();
+  // await client.connect();
 
   const usersCollection = client.db("ScholarshipDb").collection("User");
   const reviewsCollection = client.db("ScholarshipDb").collection("reviews");
@@ -464,7 +465,7 @@ async function run() {
     });
     // ----------Admin--------------
     // Get all users for admin
-    app.get("/users", verifyToken, async (req, res) => {
+    app.get("/users", async (req, res) => {
       const Filter = req.query.filter;
       let query = {};
       if (Filter) {
@@ -479,7 +480,7 @@ async function run() {
       res.send(result);
     });
     // Update user role for admin
-    app.put("/users/update/:email", verifyToken, async (req, res) => {
+    app.put("/users/update/:email",  async (req, res) => {
       const email = req.params.email;
       const user = req.body;
       const query = { email: email };
@@ -498,59 +499,15 @@ async function run() {
       const result = await ScholarshipsCollection.find().toArray();
       res.send(result);
     });
-    // Get a single Scholarship
-    app.get("/admin-applied-scholarship", async (req, res) => {
-      const sort = req.query.sort;
-      let options = {}
-      if (sort === 'asc') {
-        options = { sort: { deadline: 1 } }
-      }
-      if (sort === 'dsc') {
-       options = { sort: { deadline: -1 } }
-      }
-     
-      const result = await bookingsCollection.find(options).toArray();
+    
+    // Get all sc data from db for pagination
+    app.get("/ad-ap-scholar", async (req, res) => {
+      const result = await bookingsCollection
+        .find()
+        .toArray();
       res.send(result);
     });
-        // Get all sc data from db for pagination
-        app.get('/ad-ap-scholar', async (req, res) => {
-          const size = parseInt(req.query.size)
-          const page = parseInt(req.query.page) - 1
-          const filter = req.query.filter
-          const sort = req.query.sort
-          const sort2 = req.query.sort2
-          const search = req.query.search
-    
-          let query = {
-            name: { $regex: search, $options: 'i' },
-          }
-          if (filter) query.category = filter
-          let options = {}
-    
-          if (sort) options = { sort: { deadline: sort === 'asc' ? 1 : -1 } }
-          // if (sort2) options = { sort2: { appliedData: sort2 === 'asc2' ? 1 : -1 } }
-          const result = await bookingsCollection
-            .find(query, options)
-            .skip(page * size)
-            .limit(size)
-            .toArray()
-    
-          res.send(result)
-        })
-    
-        // Get all sc data count from db
-        app.get('/jobs-count', async (req, res) => {
-          const filter = req.query.filter
-          const search = req.query.search
-          let query = {
-            job_title: { $regex: search, $options: 'i' },
-          }
-          if (filter) query.category = filter
-          const count = await bookingsCollection.countDocuments(query)
-    
-          res.send({ count })
-        })
-    
+   
     // Get a Scholarships
     app.get("/review", async (req, res) => {
       const result = await reviewsCollection.find().toArray();
@@ -562,10 +519,10 @@ async function run() {
       const result = await usersCollection.deleteOne(query);
       res.send(result);
     });
-    // Admin Stat Data in 
-    app.get("/admin-stat", verifyToken, async (req, res) => {
+    // Admin Stat Data in
+    app.get("/admin-stat",async (req, res) => {
       const bookingsDetails = await bookingsCollection
-        .find({}, { projection: { date: 1, fee: 1 } })
+        .find({}, { projection: {appliedData: 1, fee: 1 } })
         .toArray();
       const userCount = await usersCollection.countDocuments();
       const roomCount = await ScholarshipsCollection.countDocuments();
@@ -574,10 +531,12 @@ async function run() {
         0
       );
       const chartData = bookingsDetails.map((data) => {
-        const day = new Date(data.date).getDate();
-        const month = new Date(data.date).getMonth() + 1;
-        return [day + "/" + month, data.price];
+console.log(data);
+        const day = new Date(data.appliedData).getDate();
+        const month = new Date(data.appliedData).getMonth() + 1;
+        return [day + "/" + month, data.fee];
       });
+    console.log(chartData );
       chartData.unshift(["Day", "Sale"]);
       res.send({
         totalSale,
@@ -588,7 +547,7 @@ async function run() {
       });
     });
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
